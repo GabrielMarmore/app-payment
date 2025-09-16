@@ -74,7 +74,8 @@ class UserService
             $data['type'],
             (float) $data['balance'],
             (int) $data['id'],
-            $data['created_at']
+            $data['updated_at']?? null, //avoid warning
+            $data['created_at']?? null //avoid warning
         );
     }
     public function authenticate(string $email, string $password): User
@@ -99,7 +100,8 @@ class UserService
             $data['type'],
             (float) $data['balance'],
             (int) $data['id'],
-            $data['created_at']
+            $data['updated_at']?? null, //avoid warning
+            $data['created_at']?? null //avoid warning
         );
     }
     public function truncateUsers(): void

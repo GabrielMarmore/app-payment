@@ -16,8 +16,8 @@ class UserTest extends TestCase
         $dbService = new DbService();
         $pdo = $dbService->getConnection();
         $this->userService = new UserService($pdo);
-        
-        //clean table beofore each test
+
+        //clean table before each test
         $this->userService->truncateUsers();
     }
     public function testCreateUser()
@@ -36,6 +36,12 @@ class UserTest extends TestCase
         $this->assertInstanceOf(User::class, $createdUser);
         $this->assertEquals('Anakin Skywalker', $createdUser->getName());
         $this->assertEquals(100.00, $createdUser->getBalance());
+
+        $this->assertNotNull($createdUser->getCreatedAt());
+        $this->assertNotNull($createdUser->getUpdatedAt());
+
+        $this->assertInstanceOf(\DateTimeImmutable::class, $createdUser->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $createdUser->getUpdatedAt());
 
         $authenticated = $this->userService->authenticate('anakin@example.com', 'padme');
         $this->assertEquals($createdUser->getId(), $authenticated->getId());

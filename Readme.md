@@ -3,6 +3,15 @@
 Desafio técnico em **PHP puro**, utilizando **Docker** e **PostgreSQL**.  
 O sistema permitirá transferências de dinheiro entre **usuários comuns** e **lojistas**, com regras de negócio específicas.
 
+## Tecnologias
+- **PHP 8.2 + Apache**
+- **PostgreSQL 15**
+- **Composer**
+- **Boostrap 5**
+- **Mocks** para simular:
+  - Serviço externo de autorização
+  - Envio de notificações (email/SMS)
+
 ## Pré-requisitos
 - Linux: Docker e Docker Compose 
 - Windows: Docker Desktop
@@ -42,12 +51,34 @@ docker compose exec app bash
 ./vendor/bin/phpunit tests/UserTest.php
 ```
 
+## Comandos úteis
 
-## Tecnologias
-- **PHP 8.2 + Apache**
-- **PostgreSQL 15**
-- **Composer**
-- **Boostrap 5**
-- **Mocks** para simular:
-  - Serviço externo de autorização
-  - Envio de notificações (email/SMS)
+- Subir containers em background:  
+```
+docker compose up -d
+```
+- Subir containers com rebuild:  
+```
+docker compose up --build -d
+```
+- Parar containers:  
+```
+docker compose down
+```
+- Ver logs do container da aplicação:  
+```
+docker compose logs -f app
+```
+- Acessar o container da aplicação via shell:  
+```
+docker compose exec app bash
+```
+- Rodar PHPUnit dentro do container:
+Adicionar ```-debug``` para mais detalhes  
+```
+docker compose exec app ./vendor/bin/phpunit tests/
+```
+- Rodar migrations manualmente:  
+```
+docker compose exec app php /var/www/scripts/migrate.php
+```

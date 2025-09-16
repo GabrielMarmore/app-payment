@@ -32,8 +32,8 @@ class User
         $this->password = $password;
         $this->type = $type;
         $this->balance = $balance;
-        $this->updatedAt = $updatedAt;
-        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt ? new \DateTimeImmutable($updatedAt) : null;
+        $this->createdAt = $createdAt ? new \DateTimeImmutable($createdAt) : null;
     }
 
     // Getters
@@ -67,18 +67,26 @@ class User
         return $this->type;
     }
 
+    public function getTypeFormatted(): string
+    {
+        return match ($this->type) {
+            'common' => 'Comum',
+            'merchant' => 'Lojista'
+        };
+    }
+
     public function getBalance(): float
     {
         return $this->balance;
     }
 
-    public function getCreatedAt(): ?string
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?string
-    {   
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
         return $this->updatedAt;
     }
 
@@ -86,7 +94,7 @@ class User
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,            
+            'name' => $this->name,
             'cpf_cnpj' => $this->cpfCnpj,
             'email' => $this->email,
             'type' => $this->type,
