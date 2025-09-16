@@ -1,0 +1,35 @@
+services:
+  app:
+    build: ./app
+    container_name: app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./migrations:/migrations
+      - ./scripts:/var/www/scripts
+    depends_on:
+      - db
+      - mocks
+    command: sh -c "php /var/www/scripts/migrate.php && apache2-foreground"
+
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: payments
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  mocks:
+    build: ./mocks
+    container_name: mocks
+    ports:
+      - "9001:9001"
+
+volumes:
+  db_data:
