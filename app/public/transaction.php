@@ -15,6 +15,8 @@ $userService = new UserService($pdo);
 
 $users = $userService->getAllUsers();
 $filtred_users = array_filter($users, fn($u) => $u['id'] !== (int) $_SESSION['user_id']);
+
+$currentUser = $userService->getUserById($_SESSION['user_id']);
 ?>
 
 <main id="transaction" class="container d-flex flex-column justify-content-center align-items-center my-5">
@@ -26,7 +28,9 @@ $filtred_users = array_filter($users, fn($u) => $u['id'] !== (int) $_SESSION['us
                 <label for="type" class="form-label">Tipo de transação</label>
                 <select id="type" name="type" class="form-select" required>
                     <option value="">Selecione...</option>
-                    <option value="transfer">Transferência</option>
+                    <?php if ($currentUser->getType() === 'common'): ?>
+                        <option value="transfer">Transferência</option>
+                    <?php endif; ?>
                     <option value="deposit">Depósito</option>
                     <option value="withdraw">Saque</option>
                 </select>
@@ -41,7 +45,7 @@ $filtred_users = array_filter($users, fn($u) => $u['id'] !== (int) $_SESSION['us
                     <option value="">Selecione...</option>
                     <?php foreach ($filtred_users as $user): ?>
                         <option value="<?= $user['id'] ?>">
-                            <?= htmlspecialchars($user['name'] .'-'. $user['email']) ?>
+                            <?= htmlspecialchars($user['name'] . '-' . $user['email']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -60,7 +64,7 @@ $filtred_users = array_filter($users, fn($u) => $u['id'] !== (int) $_SESSION['us
             </div>
 
             <div class="d-flex justify-content-center">
-                <a href="/index.php?page=dashboard" class="btn btn-secondary w-50 ms-2" >Voltar para dashboard</a>
+                <a href="/index.php?page=dashboard" class="btn btn-secondary w-50 ms-2">Voltar para dashboard</a>
                 <button type="submit" class="btn btn-primary w-50 mx-2">Efetuar</button>
             </div>
         </form>

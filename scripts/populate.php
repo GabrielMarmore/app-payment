@@ -28,12 +28,12 @@ $users = [
 $createdUsers = [];
 foreach ($users as [$name, $cpf, $email, $type, $balance]) {
     $createdUsers[$email] = $userService->createUser(new User(
-        $name,
-        $cpf,
-        $email,
-        '123456', // senha padrão
-        $type,
-        $balance
+        name: $name,
+        cpfCnpj: $cpf,
+        email: $email,
+        password: '123456', // senha padrão
+        type: $type,
+        balance: $balance
     ));
 }
 
