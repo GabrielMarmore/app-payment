@@ -23,12 +23,12 @@ class UserTest extends TestCase
     public function testCreateUser()
     {
         $user = new User(
-            'Anakin Skywalker',
-            '12345678901',
-            'anakin@example.com',
-            'padme',
-            'common',
-            100.00
+            name: 'Anakin Skywalker',
+            cpfCnpj: '12345678901',
+            email: 'anakin@example.com',
+            password: 'padme',
+            type: 'common',
+            balance: 100.00
         );
 
         $createdUser = $this->userService->createUser($user);

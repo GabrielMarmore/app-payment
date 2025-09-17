@@ -50,6 +50,11 @@ Atenção: Antes do teste a tabela de usuarios é truncada.
 docker compose exec app bash
 ./vendor/bin/phpunit tests/UserTest.php
 ```
+- Testar transações:
+Atenção: Antes do teste a tabela de usuarios e transações é truncada.
+```
+docker compose exec app bash
+./vendor/bin/phpunit tests/TransactionTest.php
 
 ## Comandos úteis
 
@@ -81,4 +86,8 @@ docker compose exec app ./vendor/bin/phpunit tests/
 - Rodar migrations manualmente:  
 ```
 docker compose exec app php /var/www/scripts/migrate.php
+```
+- Popular banco de dados com usuários e transações de teste:
+```
+docker compose exec app php /var/www/scripts/populate.php
 ```

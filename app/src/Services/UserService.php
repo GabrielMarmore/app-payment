@@ -56,6 +56,16 @@ class UserService
         $id = $stmt->fetchColumn();
         return $this->getUserById($id);
     }
+    public function getAllUsers(): array {
+        $stmt = $this->pdo->prepare('select id, name, email from users');
+        $stmt->execute();
+
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = $row;
+        }
+        return $users;
+    }
     public function getUserById(int $id): User
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
@@ -67,15 +77,37 @@ class UserService
         }
 
         return new User(
-            $data['name'],
-            $data['cpf_cnpj'],
-            $data['email'],
-            '***',
-            $data['type'],
-            (float) $data['balance'],
-            (int) $data['id'],
-            $data['updated_at']?? null, //avoid warning
-            $data['created_at']?? null //avoid warning
+            name: $data['name'],
+            cpfCnpj: $data['cpf_cnpj'],
+            email: $data['email'],
+            password: '***',
+            type: $data['type'],
+            balance: (float) $data['balance'],
+            id: (int) $data['id'],
+            updatedAt: $data['updated_at']?? null, //avoid warning
+            createdAt: $data['created_at']?? null //avoid warning
+        );
+    }
+        public function getUserByEmail(string $email): User
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['email' => $email]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            throw new \Exception("Usuário não encontrado.");
+        }
+
+        return new User(
+            name: $data['name'],
+            cpfCnpj: $data['cpf_cnpj'],
+            email: $data['email'],
+            password: '***',
+            type: $data['type'],
+            balance: (float) $data['balance'],
+            id: (int) $data['id'],
+            updatedAt: $data['updated_at']?? null, //avoid warning
+            createdAt: $data['created_at']?? null //avoid warning
         );
     }
     public function authenticate(string $email, string $password): User
@@ -93,15 +125,15 @@ class UserService
         }
 
         return new User(
-            $data['name'],
-            $data['cpf_cnpj'],
-            $data['email'],
-            '***',
-            $data['type'],
-            (float) $data['balance'],
-            (int) $data['id'],
-            $data['updated_at']?? null, //avoid warning
-            $data['created_at']?? null //avoid warning
+            name: $data['name'],
+            cpfCnpj: $data['cpf_cnpj'],
+            email: $data['email'],
+            password: '***',
+            type: $data['type'],
+            balance: (float) $data['balance'],
+            id: (int) $data['id'],
+            updatedAt: $data['updated_at']?? null, //avoid warning
+            createdAt: $data['created_at']?? null //avoid warning
         );
     }
     public function truncateUsers(): void

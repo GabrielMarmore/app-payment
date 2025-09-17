@@ -103,9 +103,4 @@ class User
             'created_at' => $this->createdAt,
         ];
     }
-
-    public function setBalance(float $balance): void
-    {
-        $this->balance = $balance;
-    }
 }

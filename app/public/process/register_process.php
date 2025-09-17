@@ -30,12 +30,12 @@ try {
 
 
     $user = new User(
-        trim($_POST['name']),
-        trim($_POST['cpf_cnpj']),
-        trim($_POST['email']),
-        $_POST['password'],
-        $_POST['type'],
-        (float) $_POST['balance']
+        name: trim($_POST['name']),
+        cpfCnpj: trim($_POST['cpf_cnpj']),
+        email: trim($_POST['email']),
+        password: $_POST['password'],
+        type: $_POST['type'],
+        balance: (float) $_POST['balance']
     );
     $createdUser = $userService->createUser($user);
 
