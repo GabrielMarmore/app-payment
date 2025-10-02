@@ -77,6 +77,7 @@ docker compose exec app bash
 ```
 
 ## Estrutura do projeto
+O sistema segue uma arquitetura **monolítica** em PHP, com separação inspirada no **padrão MVC**:
 - `/app` → código PHP principal, incluindo:
   - `Models` → definição das entidades do sistema (ex.: User, Transaction)  
   - `Services` → regras de negócio e manipulação de dados (ex.: TransactionService, UserService)  
